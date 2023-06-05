@@ -1,12 +1,12 @@
 export type AmplifyDependentResourcesAttributes = {
   api: {
-    cljstemplate: {
+    fate: {
       GraphQLAPIEndpointOutput: 'string'
       GraphQLAPIIdOutput: 'string'
     }
   }
   auth: {
-    cljstemplatecc274de4: {
+    fatecc274de4: {
       AppClientID: 'string'
       AppClientIDWeb: 'string'
       IdentityPoolId: 'string'

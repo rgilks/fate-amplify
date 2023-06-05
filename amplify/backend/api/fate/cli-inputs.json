@@ -1,11 +1,11 @@
 {
     "version": 1,
     "serviceConfiguration": {
-        "apiName": "cljstemplate",
+        "apiName": "fate",
         "serviceName": "AppSync",
         "defaultAuthType": {
             "mode": "AMAZON_COGNITO_USER_POOLS",
-            "cognitoUserPoolId": "authcljstemplatecc274de4"
+            "cognitoUserPoolId": "authfatecc274de4"
         },
         "additionalAuthTypes": [
             {

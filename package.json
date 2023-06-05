@@ -59,8 +59,8 @@
     "dev-build": "shadow-cljs compile app",
     "shadow-cljs-server": "shadow-cljs server",
     "webpack": "webpack --watch",
-    "cypress": "CYPRESS_CONFIG=$(aws secretsmanager get-secret-value --secret-id cypress/config --query SecretString --output text) cypress open",
-    "cypress:run": "CYPRESS_CONFIG=$(aws secretsmanager get-secret-value --secret-id cypress/config --query SecretString --output text) cypress run  --headless --browser chrome"
+    "cypress": "CYPRESS_CONFIG=$(aws secretsmanager get-secret-value --secret-id fate/cypress/config --query SecretString --output text) cypress open",
+    "cypress:run": "CYPRESS_CONFIG=$(aws secretsmanager get-secret-value --secret-id fate/cypress/config --query SecretString --output text) cypress run  --headless --browser chrome"
   },
   "eslintConfig": {
     "extends": [
