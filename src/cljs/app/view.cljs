@@ -1,6 +1,8 @@
 (ns app.view
   (:require
-   [app.routing :as routing]
+   [app.email-settings :as email-settings]
+   [app.games :as games]
+   [app.character :as character]
    [uix.core :refer [$ defui]]
    [uix.dom]
    ["@aws-amplify/ui-react" :as amplify-ui]
@@ -8,7 +10,8 @@
    [refx.alpha :as refx]
    ["@mui/material/styles" :as mui-styles]
    ["@mui/material" :as mui]
-   [app.theme :refer [theme]]))
+   [app.theme :refer [theme]]
+   ["react-router-dom" :as router]))
 
 (refx/reg-sub
  ::games
@@ -42,11 +45,6 @@
 ;;           ($ sync-data))
 ;;         ($ not-a-player)))))
 
-(defui router-component []
-  (let [current-route (refx/use-sub [::routing/current-route])]
-    (when current-route
-      ($ (-> current-route :data :view)))))
-
 (defui games []
   (let [games (refx/use-sub [::games])]
     ($ :div
@@ -60,6 +58,13 @@
              :style {:color "white"}}
             (str games))))))
 
+(defui router []
+  ($ router/BrowserRouter
+     ($ router/Routes
+        ($ router/Route {:path "/character/:id" :exact true :element ($ character/form)})
+        ($ router/Route {:path "/games" :element ($ games/view)})
+        ($ router/Route {:path "/email-settings" :element ($ email-settings/view)}))))
+
 (defui main []
   ($ :<>
      ($ amplify-ui/Authenticator
@@ -72,7 +77,7 @@
                     {:data-testid "logged-in"
                      :style {:color "white"}}
                     "YOU ARE LOGGED IN!")
-                 ($ router-component)))))))
+                 ($ router)))))))
 
 ;; (defui main []
 ;;   ($ :<>
