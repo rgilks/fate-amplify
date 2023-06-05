@@ -51,7 +51,7 @@ type FatePoints {
 
 type Character @model @auth(rules: [{allow: private}, {allow: owner}]) {
   id: ID!
-  character_name: String!
+  name: String!
   aspects: [Aspect]!
   skills: [Skill]!
   stunts: [Stunt]!

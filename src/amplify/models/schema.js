@@ -184,8 +184,8 @@ export const schema = {
           isRequired: true,
           attributes: []
         },
-        character_name: {
-          name: 'character_name',
+        name: {
+          name: 'name',
           isArray: false,
           type: 'String',
           isRequired: true,
@@ -452,5 +452,5 @@ export const schema = {
     }
   },
   codegenVersion: '3.4.3',
-  version: '1f004013bc68e56f013b5d5cfef0afe6'
+  version: '41dfc463a9ff11f1761dda2e35d6a86d'
 }

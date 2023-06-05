@@ -185,7 +185,7 @@ type EagerCharacter = {
     identifier: ManagedIdentifier<Character, 'id'>
   }
   readonly id: string
-  readonly character_name: string
+  readonly name: string
   readonly aspects: (Aspect | null)[]
   readonly skills: (Skill | null)[]
   readonly stunts: (Stunt | null)[]
@@ -205,7 +205,7 @@ type LazyCharacter = {
     identifier: ManagedIdentifier<Character, 'id'>
   }
   readonly id: string
-  readonly character_name: string
+  readonly name: string
   readonly aspects: (Aspect | null)[]
   readonly skills: (Skill | null)[]
   readonly stunts: (Stunt | null)[]
