@@ -74,7 +74,7 @@ module.exports = defineConfig({
     defaultCommandTimeout: 20000,
     watchForFileChanges: true,
     experimentalStudio: true,
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://localhost:3003',
     setupNodeEvents
   }
 })

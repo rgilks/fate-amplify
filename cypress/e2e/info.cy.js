@@ -1,10 +1,3 @@
-const cypressConfig = Cypress.env('CONFIG')
-
-const {testUsers} = cypressConfig
-
-const username = 'testUser1'
-const {email, password} = testUsers[username]
-
 describe('Info Page', () => {
   beforeEach(() => {
     cy.visit('/info.html')

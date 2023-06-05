@@ -40,7 +40,7 @@ const appConfig = {
       template: './dist/index.html.tmpl',
       filename: 'index.html',
       templateParameters: {
-        basePath: process.env.BASE_PATH ?? 'http://localhost:3000/'
+        basePath: process.env.BASE_PATH ?? 'http://localhost:3003/'
       }
     }),
     new HtmlBeautifierPlugin()
