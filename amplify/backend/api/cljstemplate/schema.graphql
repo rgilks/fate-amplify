@@ -1,6 +1,7 @@
 type Player @model @auth(rules: [{allow: private}, {allow: owner}]) {
   id: ID!
   gameID: ID! @index(name: "byGame")
+  characters: [Character] @hasMany(indexName: "byPlayer", fields: ["id"])
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
   owner: String
@@ -15,6 +16,57 @@ type Game @model @auth(rules: [{allow: private}, {allow: owner}]) {
   updatedAt: AWSDateTime
   owner: String
 }
+
+# Character
+
+type Aspect {
+  type: String!
+  phrase: String!
+}
+
+type Skill {
+  name: String!
+  rating: String!
+}
+
+type Stunt {
+  name: String!
+  description: String!
+}
+
+type Stress {
+  total: Int!
+  current: Int!
+}
+
+type StressMap {
+  physical: Stress!
+  mental: Stress!
+}
+
+type FatePoints {
+  refresh: Int!
+  current: Int!
+}
+
+type Character @model @auth(rules: [{allow: private}, {allow: owner}]) {
+  id: ID!
+  character_name: String!
+  aspects: [Aspect]!
+  skills: [Skill]!
+  stunts: [Stunt]!
+  stress: StressMap!
+  fate: FatePoints!
+  background: String
+  notes: String
+  playerID: ID @index(name: "byPlayer")
+  player: Player @belongsTo(fields: ["playerID"])
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+  owner: String
+}
+
+# end Character
 
 input TemplateData {
   gameID: ID!

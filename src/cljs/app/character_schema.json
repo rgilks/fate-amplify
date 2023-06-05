@@ -1,0 +1,247 @@
+{
+  "title": "Character",
+  "type": "object",
+  "properties": {
+    "id": {"title": "Id", "type": "string", "format": "uuid"},
+    "character-name": {
+      "title": "Character Name",
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 80,
+      "errorMessage": {
+        "minLength": "Must be at least 3 character long.",
+        "maxLength": "Must be shorter than 80 characters."
+      }
+    },
+    "aspects": {
+      "title": "Aspects",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "title": "Aspect Type",
+            "type": "string",
+            "enum": ["high-concept", "trouble", "relationship", "other"],
+            "errorMessage": {
+              "enum": "Must be 'high-concept', 'trouble', 'relationship', or 'other'."
+            }
+          },
+          "phrase": {
+            "title": "Aspect Phrase",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "errorMessage": {
+              "minLength": "Must be at least 1 character long.",
+              "maxLength": "Must be shorter than 120 characters."
+            }
+          }
+        },
+        "required": ["type", "phrase"]
+      },
+      "errorMessage": {"type": "Must be a list of aspects."}
+    },
+    "skills": {
+      "title": "Skills",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Skill Names",
+            "type": "string",
+            "enum": [
+              "Athletics",
+              "Burglary",
+              "Contacts",
+              "Crafts",
+              "Deceive",
+              "Drive",
+              "Empathy",
+              "Fight",
+              "Investigate",
+              "Lore",
+              "Notice",
+              "Physique",
+              "Provoke",
+              "Rapport",
+              "Resources",
+              "Shoot",
+              "Stealth",
+              "Will"
+            ],
+            "errorMessage": {
+              "enum": "Must be one of the predefined Fate Condensed skills."
+            }
+          },
+          "rating": {
+            "title": "Rating",
+            "type": "string",
+            "enum": [
+              "Legendary",
+              "Epic",
+              "Fantastic",
+              "Superb",
+              "Great",
+              "Good",
+              "Fair",
+              "Average"
+            ],
+            "errorMessage": {
+              "enum": "Must be 'Legendary', 'Epic', 'Fantastic', 'Superb', 'Great', 'Good', 'Fair', 'Average'."
+            }
+          }
+        },
+        "required": ["name", "rating"]
+      },
+      "errorMessage": {"type": "Must be a list of skills."}
+    },
+    "stunts": {
+      "title": "Stunts",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Stunt Name",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "errorMessage": {
+              "minLength": "Must be at least 1 character long.",
+              "maxLength": "Must be shorter than 100 characters."
+            }
+          },
+          "description": {
+            "title": "Stunt Description",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "errorMessage": {
+              "minLength": "Must be at least 1 character long.",
+              "maxLength": "Must be shorter than 300 characters."
+            }
+          }
+        },
+        "required": ["name", "description"]
+      },
+      "errorMessage": {"type": "Must be a list of stunts."}
+    },
+    "stress": {
+      "title": "Stress",
+      "type": "object",
+      "properties": {
+        "physical": {
+          "title": "Physical",
+          "type": "object",
+          "properties": {
+            "total": {
+              "title": "Total",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "errorMessage": {
+                "minimum": "Must not be less than 1.",
+                "maximum": "Must not exceed 10."
+              }
+            },
+            "current": {
+              "title": "Current",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10,
+              "errorMessage": {
+                "minimum": "Must not be less than 0.",
+                "maximum": "Must not exceed 10."
+              }
+            }
+          },
+          "required": ["total", "current"],
+          "errorMessage": {"type": "Physical stress is required."}
+        },
+        "mental": {
+          "title": "Mental",
+          "type": "object",
+          "properties": {
+            "total": {
+              "title": "Total",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "errorMessage": {
+                "minimum": "Must not be less than 1.",
+                "maximum": "Must not exceed 10."
+              }
+            },
+            "current": {
+              "title": "Current",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10,
+              "errorMessage": {
+                "minimum": "Must not be less than 0.",
+                "maximum": "Must not exceed 10."
+              }
+            }
+          },
+          "required": ["total", "current"],
+          "errorMessage": {"type": "Mental stress is required."}
+        }
+      },
+      "required": ["physical", "mental"],
+      "errorMessage": {"type": "Stress is required."}
+    },
+    "fate": {
+      "title": "Fate Points",
+      "type": "object",
+      "properties": {
+        "refresh": {
+          "title": "Refresh",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "errorMessage": {
+            "minimum": "Must not be less than 1.",
+            "maximum": "Must not exceed 10."
+          }
+        },
+        "current": {
+          "title": "Current Fate Points",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10,
+          "errorMessage": {
+            "minimum": "Must not be less than 0.",
+            "maximum": "Must not exceed 10."
+          }
+        }
+      },
+      "required": ["refresh", "current"],
+      "errorMessage": {"type": "Fate points are required."}
+    },
+    "background": {
+      "title": "Background",
+      "type": "string",
+      "maxLength": 2000,
+      "errorMessage": {"maxLength": "Must be shorter than 2000 characters."}
+    },
+    "notes": {
+      "title": "Notes",
+      "type": "string",
+      "maxLength": 2000,
+      "errorMessage": {"maxLength": "Must be shorter than 2000 characters."}
+    }
+  },
+  "required": [
+    "id",
+    "character-name",
+    "aspects",
+    "skills",
+    "stunts",
+    "stress",
+    "fate",
+    "background",
+    "notes"
+  ]
+}
