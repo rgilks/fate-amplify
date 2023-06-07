@@ -1,13 +1,13 @@
 (ns app.core
   (:require
-   ["aws-exports" :default aws-exports]
    ["aws-amplify" :as amplify]
-   [app.view :as view]
+   ["aws-exports" :default aws-exports]
    [app.datastore :as datastore]
    [app.user :as user]
+   [app.view :as view]
+   [refx.alpha :as refx]
    [uix.core :refer [$]]
-   [uix.dom]
-   [refx.alpha :as refx]))
+   [uix.dom]))
 
 (defn init-hub-listeners! [hub-listeners]
   (doseq [[channel target-event re-frame-event] hub-listeners]
@@ -29,7 +29,8 @@
      :datastore-ready false
      :user            nil
      :slug            nil
-     :games           nil}])
+     :games           nil
+     :characters      nil}])
   (refx/dispatch-sync [::user/get])
   ;; (refx/dispatch-sync [::event/init-listeners])
   (init-hub-listeners!

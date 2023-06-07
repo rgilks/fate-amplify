@@ -1,17 +1,17 @@
 (ns app.view
   (:require
+   ["@aws-amplify/ui-react" :as amplify-ui]
+   ["@mui/material" :as mui]
+   ["@mui/material/styles" :as mui-styles]
+   ["react-div-100vh" :default Div100vh]
+   ["react-router-dom" :as router]
+   [app.character :as character]
    [app.email-settings :as email-settings]
    [app.games :as games]
-   [app.character :as character]
-   [uix.core :refer [$ defui]]
-   [uix.dom]
-   ["@aws-amplify/ui-react" :as amplify-ui]
-   ["react-div-100vh" :default Div100vh]
-   [refx.alpha :as refx]
-   ["@mui/material/styles" :as mui-styles]
-   ["@mui/material" :as mui]
    [app.theme :refer [theme]]
-   ["react-router-dom" :as router]))
+   [refx.alpha :as refx]
+   [uix.core :refer [$ defui]]
+   [uix.dom]))
 
 (refx/reg-sub
  ::games
@@ -61,23 +61,29 @@
 (defui router []
   ($ router/BrowserRouter
      ($ router/Routes
-        ($ router/Route {:path "/character/:id" :exact true :element ($ character/form)})
-        ($ router/Route {:path "/games" :element ($ games/view)})
-        ($ router/Route {:path "/email-settings" :element ($ email-settings/view)}))))
+        ($ router/Route
+           {:path "/character/:id"
+            :exact true
+            :element ($ character/form)})
+        ($ router/Route
+           {:path "/games"
+            :element ($ games/view)})
+        ($ router/Route
+           {:path "/email-settings"
+            :element ($ email-settings/view)}))))
 
 (defui main []
-  ($ :<>
-     ($ amplify-ui/Authenticator
-        ($ Div100vh
-           ($ mui-styles/ThemeProvider
-              {:theme (mui-styles/createTheme (clj->js theme))}
-              ($ mui/CssBaseline)
+  ($ amplify-ui/Authenticator
+     ($ Div100vh
+        ($ mui-styles/ThemeProvider
+           {:theme (mui-styles/createTheme (clj->js theme))}
+           ($ mui/CssBaseline)
+           ($ :div
               ($ :div
-                 ($ :div
-                    {:data-testid "logged-in"
-                     :style {:color "white"}}
-                    "YOU ARE LOGGED IN!")
-                 ($ router)))))))
+                 {:data-testid "logged-in"
+                  :style {:color "white"}}
+                 "YOU ARE LOGGED IN!")
+              ($ router))))))
 
 ;; (defui main []
 ;;   ($ :<>

@@ -56,7 +56,7 @@
 (def character
   [:map
    {:title "Character"}
-   [:id {:title "Id"} uuid?]
+;;    [:id {:title "Id"} uuid?]
    [:name
     {:title "Character Name"
      :json-schema/errorMessage
@@ -181,6 +181,8 @@
 
   (mg/generate game)
   (json-schema/transform game)
+
+  (json-schema/transform character)
 
   (gen/sample (sg/string-generator #"^[0-9a-z](-?[0-9a-z])*$"))
   (gen/sample (sg/string-generator #"^[0-9a-z]{1}[-0-9a-z]{2,35}$"))
