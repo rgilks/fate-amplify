@@ -3,7 +3,7 @@
   "type": "object",
   "properties": {
     "id": {"title": "Id", "type": "string", "format": "uuid"},
-    "character-name": {
+    "name": {
       "title": "Character Name",
       "type": "string",
       "minLength": 3,
@@ -235,7 +235,7 @@
   },
   "required": [
     "id",
-    "character-name",
+    "name",
     "aspects",
     "skills",
     "stunts",

@@ -36,9 +36,9 @@
   (str (:current fate) "/" (:refresh fate)))
 
 (defn prn-character [character]
-  (let [{:keys [character-name aspects skills stunts stress fate background notes]} character]
+  (let [{:keys [name aspects skills stunts stress fate background notes]} character]
     (str
-     "**" character-name "**\n"
+     "**" name "**\n"
      "\n- **High Concept:** " (prn-aspects "high-concept" aspects)
      "\n- **Trouble:** " (prn-aspects "trouble" aspects)
      "\n- **Relationship:** " (prn-aspects "relationship" aspects)
@@ -56,7 +56,7 @@
 (comment
   (def mikhail-petrov
     {:id #uuid "550e8400-e29b-41d4-a716-446655440000"
-     :character-name "Mikhail \"Misha\" Petrov"
+     :name "Mikhail \"Misha\" Petrov"
      :aspects [{:type "high-concept" :phrase "Disillusioned Ex-KGB Operative"}
                {:type "trouble" :phrase "Haunted by Old Demons"}
                {:type "relationship" :phrase "Guardian Bear of the Bookworm"}
