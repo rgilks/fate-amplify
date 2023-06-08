@@ -2,6 +2,7 @@
   (:require [app.character-sample :as sample]
             [app.schema :as schema]
             [cljs.pprint :refer [pprint]]
+            [clojure.string :as str]
             [instaparse.core :as insta]
             [malli.core :as m]))
 
@@ -14,7 +15,7 @@
       <type> = 'High Concept' | 'Trouble' | 'Relationship' | 'Other Aspects'
       <phrase> = #\"[^*]+\"
       skills = <'**Skills:**\n'> rank* <'\n'>
-      rank = <'- **'> <rank-name> <' (+'> rank-value <'):** '> (skill-name (<', '> skill-name)*) <'\n'>
+      rank = <'- **'> rank-name <' (+'> <rank-value> <'):** '> (skill-name (<', '> skill-name)*) <'\n'>
       <rank-name> = #\"[^ ]+\"
       <rank-value> = #\"[^\\)]+\"
       <skill-names> = skill-name (<', '> skill-name)*
@@ -31,15 +32,40 @@
       <fate-amount> = #'\\d'
       background = <'**Background:**\n\n'> #\"[^\\z]+\""))
 
-(defn parse-markdown [markdown-str]
-  (let [parsed-data (character-parser markdown-str)]
-    (if (insta/failure? parsed-data)
-      (println (insta/get-failure parsed-data))
-      parsed-data)))
+(defn transform-character [char]
+  (let [[_ name aspects skills stunts stresses fate background] char
+        aspect-map {"High Concept" "high-concept"
+                    "Trouble" "trouble"
+                    "Relationship" "relationship"
+                    "Other Aspects" "other"}]
+    {:name (second name)
+     :aspects (mapv
+               #(hash-map
+                 :type (get aspect-map (second %))
+                 :phrase (last %))
+               (rest aspects))
+     :skills (vec (apply
+                   concat
+                   (mapv #(mapv
+                           (fn [skill]
+                             {:name skill
+                              :rating (second %)}) (drop 2 %))
+                         (rest skills))))
+     :stunts (mapv #(hash-map :name (second %) :description (last %))
+                   (rest stunts))
+     :stress (apply merge
+                    (mapv
+                     #(hash-map
+                       (-> % second str/lower-case keyword)
+                       {:current (js/parseInt (nth % 2) 10)
+                        :total (js/parseInt (last %) 10)})
+                     (rest stresses)))
+     :fate {:current (js/parseInt (second fate) 10)
+            :refresh (js/parseInt (last fate) 10)}
+     :background (second background)}))
 
-(comment
-
-  (pprint (character-parser "**Mikhail \"Misha\" Petrov**
+(def misha
+  "**Mikhail \"Misha\" Petrov**
 
 - **High Concept:** *Disillusioned Ex-KGB Operative*
 - **Trouble:** *Haunted by Old Demons*
@@ -67,4 +93,11 @@
 
 Mikhail Petrov, better known as Misha, is an ex-KGB operative. With the collapse of the USSR, he became a man without a country, a relic of the old world trying to find his place in the new one. In this new world, he found an unexpected partner in Luc Chevalier, a French intellectual with a mind as sharp as Misha's fists are strong. Despite their stark differences, they've found a unique balance — Misha handles the field, while Luc deciphers codes and provides crucial intel from the safety of his office.
 
-Haunted by the ghosts of the Cold War, Misha has found comfort in his relationship with Luc, whose view of the world is starkly different from his own. Their partnership has taught him to appreciate the quieter, more cerebral side of their work, even if he sometimes finds himself missing the adrenaline of the frontline. Their mission, however complex, seems more manageable knowing Luc's brilliant mind is backing him up.")))
+Haunted by the ghosts of the Cold War, Misha has found comfort in his relationship with Luc, whose view of the world is starkly different from his own. Their partnership has taught him to appreciate the quieter, more cerebral side of their work, even if he sometimes finds himself missing the adrenaline of the frontline. Their mission, however complex, seems more manageable knowing Luc's brilliant mind is backing him up.")
+
+(comment
+  (-> misha character-parser transform-character pprint)
+
+  (m/validate
+   schema/character
+   (-> misha character-parser transform-character)))

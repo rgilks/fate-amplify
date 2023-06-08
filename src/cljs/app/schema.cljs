@@ -34,6 +34,7 @@
    {:title "Skill Names"
     :json-schema/errorMessage
     #js {:enum "Must be one of the predefined Fate Condensed skills."}}
+   "Academics"
    "Athletics"
    "Burglary"
    "Contacts"
@@ -169,11 +170,12 @@
      :json-schema/errorMessage
      #js {:maxLength "Must be shorter than 2000 characters."}}
     [:string {:max 2000}]]
-   [:notes
-    {:title "Notes"
-     :json-schema/errorMessage
-     #js {:maxLength "Must be shorter than 2000 characters."}}
-    [:string {:max 2000}]]])
+;;    [:notes
+;;     {:title "Notes"
+;;      :json-schema/errorMessage
+;;      #js {:maxLength "Must be shorter than 2000 characters."}}
+;;     [:string {:max 2000}]]
+   ])
 
 (comment
   (mg/generate player)
