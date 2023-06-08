@@ -47,16 +47,23 @@
 
   (def c
     (insta/parser
-     "character = name aspects skills
-      name = <'**'> #\"[^*]+\" <'**\n\n'>
+     "character = name aspects skills stunts
+      name = <'**'>? #\"[^*\n]+\" <'**'>? <'\n'>? <'\n'> 
       aspects = aspect* <'\n'>
       aspect = <'- **'> type <':** *'> phrase <'*\n'>
-      type = 'High Concept' | 'Trouble' | 'Relationship' | 'Other Aspects'
-      phrase = #\"[^*]+\"
-      skills = <'**Skills:**\n'> skill* <'\n'>
-      skill = <'- **'> skill-level <':** '> skill-name <'\n'>
-      skill-level = 'Great (+4)' | 'Good (+3)' | 'Fair (+2)' | 'Average (+1)'
-      skill-name = #\"[^\n]+\""))
+      <type> = 'High Concept' | 'Trouble' | 'Relationship' | 'Other Aspects'
+      <phrase> = #\"[^*]+\"
+      skills = <'**Skills:**\n'> rank* <'\n'>
+      rank = <'- **'> <rank-name> <' (+'> rank-value <'):** '> (skill-name (<', '> skill-name)*) <'\n'>
+      <rank-name> = #\"[^ ]+\"
+      <rank-value> = #\"[^\\)]+\"
+      <skill-names> = skill-name (<', '> skill-name)*
+      <skill-name> = #\"[^\n,]+\"
+      stunts = <'**Stunts:**\n'> stunt* <'\n'>
+      stunt = <'- **'> stunt-name <'**: '> stunt-desc <'\n'>
+      <stunt-name> = #\"[^*]+\" 
+      <stunt-desc> = #\"[^*\n]+\" 
+      "))
 
   (pprint (c "**Mikhail \"Misha\" Petrov**
 
@@ -70,6 +77,11 @@
 - **Good (+3):** Investigate, Will
 - **Fair (+2):** Athletics, Notice, Physique
 - **Average (+1):** Deceive, Stealth, Provoke, Academics
+
+**Stunts:**
+- **Iron Fist**: When Misha successfully lands a hit using Fight, he can spend a fate point to add 2 more shifts to the result, representing the brutal impact of his blows.
+- **Petrov's Grit**: Once per session, when Misha would be taken out, he can stay in the fight with 1 physical stress remaining. This represents his stubbornness and resilience, refusing to go down easily.
+- **Cold War Interrogator**: Misha uses his Fight skill instead of Provoke for intimidating in interrogation scenes, representing his aggressive and physically intimidating style.
 
 "))
 
