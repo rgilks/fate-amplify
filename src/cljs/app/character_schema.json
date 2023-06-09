@@ -22,9 +22,9 @@
           "type": {
             "title": "Aspect Type",
             "type": "string",
-            "enum": ["high-concept", "trouble", "relationship", "other"],
+            "enum": ["high-concept", "trouble", "relationship", "other-aspects"],
             "errorMessage": {
-              "enum": "Must be 'high-concept', 'trouble', 'relationship', or 'other'."
+              "enum": "Must be 'high-concept', 'trouble', 'relationship', or 'other-aspects'."
             }
           },
           "phrase": {

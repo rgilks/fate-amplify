@@ -4,7 +4,8 @@
             [cljs.pprint :refer [pprint]]
             [clojure.string :as str]
             [instaparse.core :as insta]
-            [malli.core :as m]))
+            [malli.core :as m]
+            [app.util :as util]))
 
 (def character-parser
   (insta/parser
@@ -33,35 +34,28 @@
       background = <'**Background:**\n\n'> #\"[^\\z]+\""))
 
 (defn transform-character [char]
-  (let [[_ name aspects skills stunts stresses fate background] char
-        aspect-map {"High Concept" "high-concept"
-                    "Trouble" "trouble"
-                    "Relationship" "relationship"
-                    "Other Aspects" "other"}]
-    {:name (second name)
+  (let [[_ [_ name] aspects skills stunts stresses fate background] char]
+    {:name  name
      :aspects (mapv
-               #(hash-map
-                 :type (get aspect-map (second %))
-                 :phrase (last %))
+               #(hash-map :type (util/kebab-case (second %)) :phrase (last %))
                (rest aspects))
-     :skills (vec (apply
-                   concat
-                   (mapv #(mapv
-                           (fn [skill]
-                             {:name skill
-                              :rating (second %)}) (drop 2 %))
-                         (rest skills))))
+     :skills (vec
+              (apply concat
+                     (map #(map
+                            (fn [skill] {:name skill :rating (second %)})
+                            (drop 2 %))
+                          (rest skills))))
      :stunts (mapv #(hash-map :name (second %) :description (last %))
                    (rest stunts))
      :stress (apply merge
-                    (mapv
+                    (map
                      #(hash-map
                        (-> % second str/lower-case keyword)
-                       {:current (js/parseInt (nth % 2) 10)
-                        :total (js/parseInt (last %) 10)})
+                       {:current (util/parse-int (nth % 2))
+                        :total (util/parse-int (last %))})
                      (rest stresses)))
-     :fate {:current (js/parseInt (second fate) 10)
-            :refresh (js/parseInt (last fate) 10)}
+     :fate {:current (util/parse-int (second fate))
+            :refresh (util/parse-int (last fate))}
      :background (second background)}))
 
 (def misha
@@ -95,7 +89,10 @@ Mikhail Petrov, better known as Misha, is an ex-KGB operative. With the collapse
 
 Haunted by the ghosts of the Cold War, Misha has found comfort in his relationship with Luc, whose view of the world is starkly different from his own. Their partnership has taught him to appreciate the quieter, more cerebral side of their work, even if he sometimes finds himself missing the adrenaline of the frontline. Their mission, however complex, seems more manageable knowing Luc's brilliant mind is backing him up.")
 
+
 (comment
+  (-> misha character-parser pprint)
+
   (-> misha character-parser transform-character pprint)
 
   (m/validate

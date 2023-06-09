@@ -42,7 +42,7 @@
      "\n- **High Concept:** " (prn-aspects "high-concept" aspects)
      "\n- **Trouble:** " (prn-aspects "trouble" aspects)
      "\n- **Relationship:** " (prn-aspects "relationship" aspects)
-     "\n- **Other Aspects:** " (prn-aspects "other" aspects)
+     "\n- **Other Aspects:** " (prn-aspects "other-aspects" aspects)
      "\n\n**Skills:**\n" (prn-skills skills)
      "\n\n**Stunts:**\n" (prn-stunts stunts)
      "\n**Stress:**\n" (prn-stress stress)
@@ -60,8 +60,8 @@
      :aspects [{:type "high-concept" :phrase "Disillusioned Ex-KGB Operative"}
                {:type "trouble" :phrase "Haunted by Old Demons"}
                {:type "relationship" :phrase "Guardian Bear of the Bookworm"}
-               {:type "other" :phrase "Tough as Siberian Winter"}
-               {:type "other" :phrase "\"The Pen is Mightier than the Sword, but I Prefer My Fist\""}]
+               {:type "other-aspects" :phrase "Tough as Siberian Winter"}
+               {:type "other-aspects" :phrase "\"The Pen is Mightier than the Sword, but I Prefer My Fist\""}]
      :skills [{:name "Fight" :rating "Great"}
               {:name "Investigate" :rating "Good"}
               {:name "Will" :rating "Good"}

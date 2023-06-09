@@ -73,8 +73,8 @@
        [:enum
         {:title "Aspect Type"
          :json-schema/errorMessage
-         #js {:enum "Must be 'high-concept', 'trouble', 'relationship', or 'other'."}}
-        "high-concept" "trouble" "relationship" "other"]]
+         #js {:enum "Must be 'high-concept', 'trouble', 'relationship', or 'other-aspects'."}}
+        "high-concept" "trouble" "relationship" "other-aspects"]]
       [:phrase
        {:title "Aspect Phrase"
         :json-schema/errorMessage
