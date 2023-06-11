@@ -18,6 +18,8 @@ ALL['@rjsf/mui'] = require('@rjsf/mui')
 ALL['models'] = require('models')
 ALL['react'] = require('react')
 ALL['react-div-100vh'] = require('react-div-100vh')
+ALL['@tiptap/react'] = require('@tiptap/react')
+ALL['@tiptap/starter-kit'] = require('@tiptap/starter-kit')
 global.shadow$bridge = function shadow$bridge(name) {
   var ret = ALL[name]
 

@@ -5,6 +5,7 @@
    ["@mui/material/styles" :as mui-styles]
    ["react-div-100vh" :default Div100vh]
    ["react-router-dom" :as router]
+   [app.editor :as editor]
    [app.character :as character]
    [app.email-settings :as email-settings]
    [app.games :as games]
@@ -61,6 +62,10 @@
 (defui router []
   ($ router/BrowserRouter
      ($ router/Routes
+        ($ router/Route
+           {:path "/editor-test"
+            :exact true
+            :element ($ editor/view)})
         ($ router/Route
            {:path "/character/:id"
             :exact true

@@ -8,8 +8,7 @@
    [app.schema :as schema]
    [malli.json-schema :as json-schema]
    [refx.alpha :as refx]
-   [uix.core :refer [$ defui]]
-   [uix.dom]))
+   [uix.core :refer [$ defui]]))
 
 (refx/reg-event-fx
  ::new-character
