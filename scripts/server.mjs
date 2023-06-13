@@ -6,13 +6,13 @@ import * as map from 'lib0/map'
 
 const wsReadyStateConnecting = 0
 const wsReadyStateOpen = 1
-const wsReadyStateClosing = 2 // eslint-disable-line
-const wsReadyStateClosed = 3 // eslint-disable-line
+const wsReadyStateClosing = 2
+const wsReadyStateClosed = 3
 
 const pingTimeout = 30000
 
 const port = process.env.PORT || 4444
-// @ts-ignore
+
 const wss = new ws.Server({noServer: true})
 
 const server = http.createServer((request, response) => {
@@ -89,6 +89,7 @@ const onconnection = conn => {
       if (typeof message === 'string') {
         message = JSON.parse(message)
       }
+      console.log('message', message)
       if (message && message.type && !closed) {
         switch (message.type) {
           case 'subscribe':
