@@ -108,6 +108,43 @@ export declare type FatePoints = LazyLoading extends LazyLoadingDisabled
 
 export declare const FatePoints: new (init: ModelInit<FatePoints>) => FatePoints
 
+type EagerYWebRtcTopic = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<YWebRtcTopic, 'id'>
+  }
+  readonly id: string
+  readonly name: string
+  readonly receivers: string[]
+  readonly createdAt?: string | null
+  readonly updatedAt?: string | null
+}
+
+type LazyYWebRtcTopic = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<YWebRtcTopic, 'id'>
+  }
+  readonly id: string
+  readonly name: string
+  readonly receivers: string[]
+  readonly createdAt?: string | null
+  readonly updatedAt?: string | null
+}
+
+export declare type YWebRtcTopic = LazyLoading extends LazyLoadingDisabled
+  ? EagerYWebRtcTopic
+  : LazyYWebRtcTopic
+
+export declare const YWebRtcTopic: (new (
+  init: ModelInit<YWebRtcTopic>
+) => YWebRtcTopic) & {
+  copyOf(
+    source: YWebRtcTopic,
+    mutator: (
+      draft: MutableModel<YWebRtcTopic>
+    ) => MutableModel<YWebRtcTopic> | void
+  ): YWebRtcTopic
+}
+
 type EagerPlayer = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Player, 'id'>

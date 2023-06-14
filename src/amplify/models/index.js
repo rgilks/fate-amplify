@@ -3,6 +3,7 @@ import {initSchema} from '@aws-amplify/datastore'
 import {schema} from './schema'
 
 const {
+  YWebRtcTopic,
   Player,
   Game,
   Character,
@@ -15,6 +16,7 @@ const {
 } = initSchema(schema)
 
 export {
+  YWebRtcTopic,
   Player,
   Game,
   Character,

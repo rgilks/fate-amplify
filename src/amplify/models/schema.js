@@ -1,5 +1,77 @@
 export const schema = {
   models: {
+    YWebRtcTopic: {
+      name: 'YWebRtcTopic',
+      fields: {
+        id: {
+          name: 'id',
+          isArray: false,
+          type: 'ID',
+          isRequired: true,
+          attributes: []
+        },
+        name: {
+          name: 'name',
+          isArray: false,
+          type: 'String',
+          isRequired: true,
+          attributes: []
+        },
+        receivers: {
+          name: 'receivers',
+          isArray: true,
+          type: 'String',
+          isRequired: true,
+          attributes: [],
+          isArrayNullable: false
+        },
+        createdAt: {
+          name: 'createdAt',
+          isArray: false,
+          type: 'AWSDateTime',
+          isRequired: false,
+          attributes: []
+        },
+        updatedAt: {
+          name: 'updatedAt',
+          isArray: false,
+          type: 'AWSDateTime',
+          isRequired: false,
+          attributes: []
+        }
+      },
+      syncable: true,
+      pluralName: 'YWebRtcTopics',
+      attributes: [
+        {
+          type: 'model',
+          properties: {}
+        },
+        {
+          type: 'key',
+          properties: {
+            name: 'byName',
+            fields: ['name']
+          }
+        },
+        {
+          type: 'auth',
+          properties: {
+            rules: [
+              {
+                allow: 'private',
+                operations: ['create', 'update', 'delete', 'read']
+              },
+              {
+                allow: 'private',
+                provider: 'iam',
+                operations: ['create', 'update', 'delete', 'read']
+              }
+            ]
+          }
+        }
+      ]
+    },
     Player: {
       name: 'Player',
       fields: {
@@ -452,5 +524,5 @@ export const schema = {
     }
   },
   codegenVersion: '3.4.3',
-  version: '41dfc463a9ff11f1761dda2e35d6a86d'
+  version: '75c745b5c2f3a669fbe0690e9f4f9921'
 }
