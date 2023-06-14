@@ -3,13 +3,6 @@ export const schema = {
     YWebRtcTopic: {
       name: 'YWebRtcTopic',
       fields: {
-        id: {
-          name: 'id',
-          isArray: false,
-          type: 'ID',
-          isRequired: true,
-          attributes: []
-        },
         name: {
           name: 'name',
           isArray: false,
@@ -30,14 +23,16 @@ export const schema = {
           isArray: false,
           type: 'AWSDateTime',
           isRequired: false,
-          attributes: []
+          attributes: [],
+          isReadOnly: true
         },
         updatedAt: {
           name: 'updatedAt',
           isArray: false,
           type: 'AWSDateTime',
           isRequired: false,
-          attributes: []
+          attributes: [],
+          isReadOnly: true
         }
       },
       syncable: true,
@@ -50,7 +45,6 @@ export const schema = {
         {
           type: 'key',
           properties: {
-            name: 'byName',
             fields: ['name']
           }
         },
@@ -524,5 +518,5 @@ export const schema = {
     }
   },
   codegenVersion: '3.4.3',
-  version: '75c745b5c2f3a669fbe0690e9f4f9921'
+  version: 'e59193e13f3cdab27b8cb28ac16b5409'
 }

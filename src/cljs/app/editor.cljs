@@ -12,7 +12,7 @@
 
 (y-webrtc/WebrtcProvider.
  "example-document" ydoc
- (clj->js {:signaling ["ws://localhost:4444"]}))
+ (clj->js {:signaling ["wss://35em0ihz5c.execute-api.eu-west-1.amazonaws.com/production"]}))
 
 (def editor
   (tiptap-core/Editor.

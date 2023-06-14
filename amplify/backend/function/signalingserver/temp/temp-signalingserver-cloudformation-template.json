@@ -75,9 +75,7 @@
               "Ref": "AWS::Region"
             },
             "API_FATE_YWEBRTCTOPICTABLE_NAME": {
-              "Fn::ImportValue": {
-                "Fn::Sub": "${apifateGraphQLAPIIdOutput}:GetAtt:YWebRtcTopicTable:Name"
-              }
+              "Fn::Sub": "TemporaryPlaceholderValue"
             },
             "API_FATE_YWEBRTCTOPICTABLE_ARN": {
               "Fn::Join": [
@@ -93,9 +91,7 @@
                   },
                   ":table/",
                   {
-                    "Fn::ImportValue": {
-                      "Fn::Sub": "${apifateGraphQLAPIIdOutput}:GetAtt:YWebRtcTopicTable:Name"
-                    }
+                    "Fn::Sub": "TemporaryPlaceholderValue"
                   }
                 ]
               ]
@@ -111,7 +107,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs18.x",
         "Layers": [],
         "Timeout": 25
       }
@@ -152,25 +148,7 @@
               ]
             }
           ]
-        },
-        "Policies": [
-          {
-            "PolicyName": "AmazonAmplifyExecuteApi",
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "execute-api:Invoke",
-                    "execute-api:ManageConnections"
-                  ],
-                  "Resource": "*"
-                }
-              ]
-            }
-          }
-        ]
+        }
       }
     },
     "lambdaexecutionpolicy": {
@@ -262,9 +240,7 @@
                       },
                       ":table/",
                       {
-                        "Fn::ImportValue": {
-                          "Fn::Sub": "${apifateGraphQLAPIIdOutput}:GetAtt:YWebRtcTopicTable:Name"
-                        }
+                        "Fn::Sub": "TemporaryPlaceholderValue"
                       }
                     ]
                   ]
@@ -283,9 +259,7 @@
                       },
                       ":table/",
                       {
-                        "Fn::ImportValue": {
-                          "Fn::Sub": "${apifateGraphQLAPIIdOutput}:GetAtt:YWebRtcTopicTable:Name"
-                        }
+                        "Fn::Sub": "TemporaryPlaceholderValue"
                       },
                       "/index/*"
                     ]

@@ -2,6 +2,7 @@ import {
   ModelInit,
   MutableModel,
   __modelMeta__,
+  CustomIdentifier,
   ManagedIdentifier
 } from '@aws-amplify/datastore'
 // @ts-ignore
@@ -110,9 +111,9 @@ export declare const FatePoints: new (init: ModelInit<FatePoints>) => FatePoints
 
 type EagerYWebRtcTopic = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<YWebRtcTopic, 'id'>
+    identifier: CustomIdentifier<YWebRtcTopic, 'name'>
+    readOnlyFields: 'createdAt' | 'updatedAt'
   }
-  readonly id: string
   readonly name: string
   readonly receivers: string[]
   readonly createdAt?: string | null
@@ -121,9 +122,9 @@ type EagerYWebRtcTopic = {
 
 type LazyYWebRtcTopic = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<YWebRtcTopic, 'id'>
+    identifier: CustomIdentifier<YWebRtcTopic, 'name'>
+    readOnlyFields: 'createdAt' | 'updatedAt'
   }
-  readonly id: string
   readonly name: string
   readonly receivers: string[]
   readonly createdAt?: string | null

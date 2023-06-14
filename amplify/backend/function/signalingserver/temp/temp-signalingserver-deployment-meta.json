@@ -1,0 +1,13 @@
+{
+    "stackTemplatePathOrUrl": "amplify-cfn-templates/function/temp/temp-signalingserver-cloudformation-template.json",
+    "parameters": {
+        "CloudWatchRule": "NONE",
+        "s3Key": "amplify-builds/signalingserver-6c555746383933425a43-build.zip",
+        "deploymentBucketName": "amplify-fate-devfatea-150536-deployment",
+        "env": "devfatea",
+        "apifateGraphQLAPIIdOutput": "px5gn7ln4vandffuvzf6p42gim"
+    },
+    "stackName": "arn:aws:cloudformation:eu-west-1:250357559699:stack/amplify-fate-devfatea-150536-functionsignalingserver-II8K04QB4EOZ/60352000-0aa5-11ee-9789-0a78679aa379",
+    "capabilities": ["CAPABILITY_NAMED_IAM", "CAPABILITY_AUTO_EXPAND"],
+    "tableNames": []
+}
