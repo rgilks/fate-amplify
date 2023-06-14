@@ -20,6 +20,12 @@
       },
       "custom": {
         "sestemplates": {}
+      },
+      "function": {
+        "signalingserver": {
+          "deploymentBucketName": "amplify-fate-devfatea-150536-deployment",
+          "s3Key": "amplify-builds/signalingserver-757a3577337169664b44-build.zip"
+        }
       }
     }
   }

@@ -61,5 +61,39 @@
       "providerPlugin": "awscloudformation",
       "service": "customCloudformation"
     }
+  },
+  "function": {
+    "signalingserver": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput"
+          ],
+          "category": "api",
+          "resourceName": "fate"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_signalingserver_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "signalingserver"
+        }
+      ]
+    },
+    "AMPLIFY_function_signalingserver_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "signalingserver"
+        }
+      ]
+    }
   }
 }

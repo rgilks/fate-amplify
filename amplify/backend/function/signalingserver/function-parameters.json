@@ -1,0 +1,13 @@
+{
+    "permissions": {
+        "storage": {
+            "YWebRtcTopic:@model(appsync)": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        }
+    },
+    "lambdaLayers": []
+}
