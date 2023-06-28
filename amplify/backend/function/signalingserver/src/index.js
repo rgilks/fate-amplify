@@ -154,18 +154,62 @@ const handleYWebRtcMessage = async (connectionId, message, send) => {
   await Promise.all(promises)
 }
 
-const handleOpenAIMessage = async messages => {
+const handleOpenAIMessage = async (messages, send) => {
+  console.log('messages:' + messages)
+
   const response = await openai.createChatCompletion(
     {
       model: 'gpt-4',
-      temperature: 0,
-      messages: messages,
+      messages: [
+        {role: 'system', content: 'You are a helpful assistant.'},
+        {role: 'user', content: 'Who won the world series in 2020?'},
+        {role: 'assistant', content: 'The Los Angeles Dodgers.'},
+        {role: 'user', content: 'Where was it played?'}
+      ],
+      max_tokens: 50,
+      n: 1,
+      stop: null,
+      temperature: 1,
       stream: true
     },
     {responseType: 'stream'}
   )
 
-  response.on('data', console.log)
+  // console.log('response:' + response.data)
+
+  const receivers = await getReceivers('example-document')
+  console.log('receivers:' + receivers)
+
+  return new Promise(resolve => {
+    let result = ''
+    response.data.on('data', data => {
+      const lines = data
+        ?.toString()
+        ?.split('\n')
+        .filter(line => line.trim() !== '')
+      for (const line of lines) {
+        const message = line.replace(/^data: /, '')
+        if (message == '[DONE]') {
+          console.log('DONE')
+          resolve(result)
+        } else {
+          let token
+          try {
+            token = JSON.parse(message)?.choices?.[0]?.delta?.content
+          } catch {
+            console.log('ERROR', json)
+          }
+          result += token
+          if (token) {
+            console.log('token:' + token)
+            receivers.forEach(receiver => {
+              send(receiver, {type: 'token', value: token})
+            })
+          }
+        }
+      }
+    })
+  })
 }
 
 const handleConnect = connectionId => {
@@ -192,6 +236,10 @@ const handleDisconnect = async connectionId => {
 }
 
 exports.handler = async event => {
+  if (event.body !== '{"type":"ping"}') {
+    console.log(event)
+  }
+
   if (!API_FATE_YWEBRTCTOPICTABLE_NAME) {
     return {statusCode: 502, body: 'Not configured'}
   }
@@ -200,6 +248,7 @@ exports.handler = async event => {
     apiVersion: '2018-11-29',
     endpoint: `https://${event.requestContext.apiId}.execute-api.${REGION}.amazonaws.com/${event.requestContext.stage}`
   })
+
   const send = async (connectionId, message) => {
     try {
       await apigwManagementApi
@@ -226,8 +275,8 @@ exports.handler = async event => {
       case '$disconnect':
         await handleDisconnect(event.requestContext.connectionId)
         break
-      case '$openaimessages':
-        await handleOpenAIMessage(event.requestContext.messages)
+      case 'openaimessages':
+        await handleOpenAIMessage(JSON.parse(event.body).messages, send)
         break
       case '$default':
         await handleYWebRtcMessage(
