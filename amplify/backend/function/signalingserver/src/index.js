@@ -35,6 +35,7 @@ const scanItems = async ({params, lastKey = undefined, items = []}) => {
     : result
 }
 
+// TODO: go via appsync?
 const subscribe = async (topic, connectionId) => {
   const now = new Date()
   try {
@@ -43,11 +44,25 @@ const subscribe = async (topic, connectionId) => {
         TableName: API_FATE_YWEBRTCTOPICTABLE_NAME,
         Key: {name: {S: topic}},
         UpdateExpression:
-          'ADD receivers :r SET updatedAt = :updatedAt, createdAt = if_not_exists(createdAt, :createdAt)',
+          'ADD receivers :r ' +
+          'SET updatedAt = :updatedAt, ' +
+          'createdAt = if_not_exists(createdAt, :createdAt), ' +
+          '#lastChangedAt = :lastChangedAt, ' +
+          '#typename = :typename, ' +
+          '#version = if_not_exists(#version, :initial) + :num',
+        ExpressionAttributeNames: {
+          '#lastChangedAt': '_lastChangedAt',
+          '#typename': '__typename',
+          '#version': '_version'
+        },
         ExpressionAttributeValues: {
           ':r': {SS: [connectionId]},
           ':updatedAt': {S: now.toISOString()},
-          ':createdAt': {S: now.toISOString()}
+          ':createdAt': {S: now.toISOString()},
+          ':lastChangedAt': {N: now.getTime().toString()},
+          ':typename': {S: 'YWebRtcTopic'},
+          ':num': {N: '1'},
+          ':initial': {N: '0'}
         }
       })
       .promise()
@@ -56,6 +71,7 @@ const subscribe = async (topic, connectionId) => {
   }
 }
 
+// TODO: go via appsync?
 const unsubscribe = async (topic, connectionId) => {
   const now = new Date()
   try {
@@ -64,11 +80,25 @@ const unsubscribe = async (topic, connectionId) => {
         TableName: API_FATE_YWEBRTCTOPICTABLE_NAME,
         Key: {name: {S: topic}},
         UpdateExpression:
-          'DELETE receivers :r SET updatedAt = :updatedAt, createdAt = if_not_exists(createdAt, :createdAt)',
+          'DELETE receivers :r ' +
+          'SET updatedAt = :updatedAt, ' +
+          'createdAt = if_not_exists(createdAt, :createdAt), ' +
+          '#lastChangedAt = :lastChangedAt, ' +
+          '#typename = :typename, ' +
+          '#version = if_not_exists(#version, :initial) + :num',
+        ExpressionAttributeNames: {
+          '#lastChangedAt': '_lastChangedAt',
+          '#typename': '__typename',
+          '#version': '_version'
+        },
         ExpressionAttributeValues: {
           ':r': {SS: [connectionId]},
           ':updatedAt': {S: now.toISOString()},
-          ':createdAt': {S: now.toISOString()}
+          ':createdAt': {S: now.toISOString()},
+          ':lastChangedAt': {N: now.getTime().toString()},
+          ':typename': {S: 'YWebRtcTopic'},
+          ':num': {N: '1'},
+          ':initial': {N: '0'}
         }
       })
       .promise()
@@ -146,7 +176,9 @@ const handleDisconnect = async connectionId => {
   console.log(`Disconnected: ${connectionId}`)
 
   const items = await scanItems({
-    TableName: API_FATE_YWEBRTCTOPICTABLE_NAME
+    params: {
+      TableName: API_FATE_YWEBRTCTOPICTABLE_NAME
+    }
   })
 
   const promises = items.map(item => {
