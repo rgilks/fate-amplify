@@ -7,5 +7,7 @@
     "devDependencies": {
         "@types/aws-lambda": "^8.10.92"
     },
-    "dependencies": {}
+    "dependencies": {
+        "openai": "^3.3.0"
+    }
 }

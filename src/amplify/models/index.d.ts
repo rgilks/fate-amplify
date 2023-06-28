@@ -112,7 +112,6 @@ export declare const FatePoints: new (init: ModelInit<FatePoints>) => FatePoints
 type EagerYWebRtcTopic = {
   readonly [__modelMeta__]: {
     identifier: CustomIdentifier<YWebRtcTopic, 'name'>
-    readOnlyFields: 'createdAt' | 'updatedAt'
   }
   readonly name: string
   readonly receivers: string[]
@@ -123,7 +122,6 @@ type EagerYWebRtcTopic = {
 type LazyYWebRtcTopic = {
   readonly [__modelMeta__]: {
     identifier: CustomIdentifier<YWebRtcTopic, 'name'>
-    readOnlyFields: 'createdAt' | 'updatedAt'
   }
   readonly name: string
   readonly receivers: string[]

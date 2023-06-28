@@ -24,7 +24,7 @@
       "function": {
         "signalingserver": {
           "deploymentBucketName": "amplify-fate-devfatea-150536-deployment",
-          "s3Key": "amplify-builds/signalingserver-68527a5737694d396d64-build.zip"
+          "s3Key": "amplify-builds/signalingserver-6e2b564b61774a4e5833-build.zip"
         }
       }
     }

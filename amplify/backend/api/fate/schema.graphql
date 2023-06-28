@@ -1,6 +1,8 @@
 type YWebRtcTopic @model @auth(rules: [{allow: private}, {allow: private, provider: iam}]) {
   name: String! @primaryKey
   receivers: [String!]!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
 }
 
 type Player @model @auth(rules: [{allow: private}, {allow: owner}]) {

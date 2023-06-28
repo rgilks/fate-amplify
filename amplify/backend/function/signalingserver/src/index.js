@@ -8,10 +8,14 @@ Amplify Params - DO NOT EDIT */ /* Amplify Params - DO NOT EDIT
 	
 Amplify Params - DO NOT EDIT */
 
+const {Configuration, OpenAIApi} = require('openai')
 const AWS = require('aws-sdk')
 const dynamoDb = new AWS.DynamoDB()
 
 const {REGION, API_FATE_YWEBRTCTOPICTABLE_NAME} = process.env
+
+const config = new Configuration({apiKey: process.env.OPENAI_API_KEY})
+const openai = new OpenAIApi(config)
 
 const scanItems = async ({params, lastKey = undefined, items = []}) => {
   if (lastKey) {
@@ -19,8 +23,6 @@ const scanItems = async ({params, lastKey = undefined, items = []}) => {
   }
 
   const {Items, LastEvaluatedKey} = await dynamoDb.scan(params).promise()
-
-  log(`SCAN`, {TableName: params.TableName, Items: Items.length})
 
   const result = Items.length ? items.concat(Items) : items
 
@@ -34,14 +36,18 @@ const scanItems = async ({params, lastKey = undefined, items = []}) => {
 }
 
 const subscribe = async (topic, connectionId) => {
+  const now = new Date()
   try {
     return await dynamoDb
       .updateItem({
         TableName: API_FATE_YWEBRTCTOPICTABLE_NAME,
         Key: {name: {S: topic}},
-        UpdateExpression: 'ADD receivers :r',
+        UpdateExpression:
+          'ADD receivers :r SET updatedAt = :updatedAt, createdAt = if_not_exists(createdAt, :createdAt)',
         ExpressionAttributeValues: {
-          ':r': {SS: [connectionId]}
+          ':r': {SS: [connectionId]},
+          ':updatedAt': {S: now.toISOString()},
+          ':createdAt': {S: now.toISOString()}
         }
       })
       .promise()
@@ -51,14 +57,18 @@ const subscribe = async (topic, connectionId) => {
 }
 
 const unsubscribe = async (topic, connectionId) => {
+  const now = new Date()
   try {
     return await dynamoDb
       .updateItem({
         TableName: API_FATE_YWEBRTCTOPICTABLE_NAME,
         Key: {name: {S: topic}},
-        UpdateExpression: 'DELETE receivers :r',
+        UpdateExpression:
+          'DELETE receivers :r SET updatedAt = :updatedAt, createdAt = if_not_exists(createdAt, :createdAt)',
         ExpressionAttributeValues: {
-          ':r': {SS: [connectionId]}
+          ':r': {SS: [connectionId]},
+          ':updatedAt': {S: now.toISOString()},
+          ':createdAt': {S: now.toISOString()}
         }
       })
       .promise()
@@ -112,6 +122,20 @@ const handleYWebRtcMessage = async (connectionId, message, send) => {
   }
 
   await Promise.all(promises)
+}
+
+const handleOpenAIMessage = async messages => {
+  const response = await openai.createChatCompletion(
+    {
+      model: 'gpt-4',
+      temperature: 0,
+      messages: messages,
+      stream: true
+    },
+    {responseType: 'stream'}
+  )
+
+  response.on('data', console.log)
 }
 
 const handleConnect = connectionId => {
@@ -169,6 +193,9 @@ exports.handler = async event => {
         break
       case '$disconnect':
         await handleDisconnect(event.requestContext.connectionId)
+        break
+      case '$openaimessages':
+        await handleOpenAIMessage(event.requestContext.messages)
         break
       case '$default':
         await handleYWebRtcMessage(
