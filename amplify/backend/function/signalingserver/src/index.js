@@ -160,12 +160,7 @@ const handleOpenAIMessage = async (messages, send) => {
   const response = await openai.createChatCompletion(
     {
       model: 'gpt-4',
-      messages: [
-        {role: 'system', content: 'You are a helpful assistant.'},
-        {role: 'user', content: 'Who won the world series in 2020?'},
-        {role: 'assistant', content: 'The Los Angeles Dodgers.'},
-        {role: 'user', content: 'Where was it played?'}
-      ],
+      messages,
       max_tokens: 50,
       n: 1,
       stop: null,
